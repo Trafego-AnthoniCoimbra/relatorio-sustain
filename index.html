@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Relatório de Performance | Google Ads - Julho</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f0f4f8;
+    }
+
+    .chart-container {
+      position: relative;
+      width: 100%;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      height: 350px;
+      max-height: 400px;
+    }
+
+    @media (min-width: 768px) {
+      .chart-container {
+        height: 400px;
+      }
+    }
+
+    .kpi-card {
+      background-color: white;
+      border-radius: 0.75rem;
+      padding: 1.5rem;
+      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .kpi-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    }
+
+    .copy-card {
+      background-color: white;
+      border-left: 4px solid;
+      padding: 1.5rem;
+      border-radius: 0.5rem;
+      box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+    }
+
+    .suggestion-list li {
+      position: relative;
+      padding-left: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .suggestion-list li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: #338239;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body class="text-gray-800">
+
+  <div class="container mx-auto p-4 md:p-8">
+
+    <header class="text-center mb-12">
+      <div class="mb-4">
+        <img src="/relatorio e otimizacao - sustain/cropped-Sustain-horizontal.webp" alt="Logo da Plataforma Sustain" class="mx-auto h-12">
+      </div>
+      <h1 class="text-4xl md:text-5xl font-bold text-[#051747] mb-2">Relatório de Performance | Gestão de Carbono</h1>
+      <p class="text-lg text-gray-600">Análise da Campanha de Google Ads - Julho de 2025</p>
+    </header>
+
+    <section id="overview" class="mb-12">
+      <div class="text-center mb-8">
+        <h2 class="text-3xl font-bold text-[#338239]">Resumo Geral da Campanha</h2>
+        <p class="text-md text-gray-500 mt-2">Sua campanha gerou <span class="font-bold text-[#051747]">7 leads</span> em Julho, mas há um grande potencial para otimização.</p>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="kpi-card text-center">
+          <p class="text-4xl font-bold text-[#051747]">148</p>
+          <p class="text-gray-500 mt-2">Cliques</p>
+        </div>
+        <div class="kpi-card text-center">
+          <p class="text-4xl font-bold text-[#051747]">R$ 814,25</p>
+          <p class="text-gray-500 mt-2">Custo Total</p>
+        </div>
+        <div class="kpi-card text-center">
+          <p class="text-4xl font-bold text-[#051747]">7</p>
+          <p class="text-gray-500 mt-2">Conversões (Leads)</p>
+        </div>
+        <div class="kpi-card text-center">
+          <p class="text-4xl font-bold text-[#051747]">R$ 116,32</p>
+          <p class="text-gray-500 mt-2">Custo por Lead</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="ad-groups" class="mb-12 p-6 bg-white rounded-lg shadow-md">
+      <div class="text-center mb-8">
+        <h2 class="text-3xl font-bold text-[#338239]">Grupos de Anúncios</h2>
+        <p class="text-md text-gray-500 mt-2">O grupo 'BRANDING' foi surpreendentemente mais eficiente na geração de leads, apesar do nome.</p>
+      </div>
+      <div class="chart-container">
+        <canvas id="adGroupsChart"></canvas>
+      </div>
+    </section>
+
+    <section id="keywords" class="mb-12 p-6 bg-white rounded-lg shadow-md">
+      <div class="text-center mb-8">
+        <h2 class="text-3xl font-bold text-[#338239]">Palavras Chaves da Campanha</h2>
+        <p class="text-md text-gray-500 mt-2">Estas são as palavras-chave que trouxeram os resultados mais valiosos.</p>
+      </div>
+      <div class="chart-container">
+        <canvas id="topKeywordsChart"></canvas>
+      </div>
+    </section>
+
+    <section id="titles-and-descriptions" class="mb-12 p-6 bg-white rounded-lg shadow-md">
+      <div class="text-center mb-8">
+        <h2 class="text-3xl font-bold text-[#338239]">Sugestões de Títulos e Descrições para Anúncios</h2>
+        <p class="text-md text-gray-500 mt-2">Aumentar o CTR é o caminho para um melhor retorno. Veja como.</p>
+      </div>
+      <div class="p-4 rounded-lg bg-gray-100 mb-6">
+        <h3 class="text-xl font-bold text-[#051747] mb-2">Análise de CTR</h3>
+        <p class="mb-2">O CTR atual da campanha, de 2,87%, é o principal gargalo. A média de mercado para o nicho de software B2B está entre 6% e 9%. Um CTR baixo significa que nossos anúncios não são atraentes ou relevantes o suficiente para o público, mesmo quando o termo de busca é pertinente. Isso desperdiça impressões e impede que leads qualificados cheguem até a landing page.</p>
+        <p>As sugestões de copy abaixo foram criadas para resolver esse problema. Elas são focadas em dor, benefício e diferenciais, usando gatilhos como "Fácil", "Otimizada" e "Completa", que têm alta ressonância com o público que pesquisa por soluções de sustentabilidade e ESG.</p>
+      </div>
+
+      <h3 class="text-2xl font-bold text-[#051747] mb-4">Títulos de Alta Performance (até 30 caracteres)</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+        <div class="kpi-card text-center bg-[#051747] text-white">
+          <p class="text-xl font-bold">Plataforma de Carbono</p>
+        </div>
+        <div class="kpi-card text-center bg-[#338239] text-white">
+          <p class="text-xl font-bold">Software de Gestão de GEE</p>
+        </div>
+        <div class="kpi-card text-center bg-[#051747] text-white">
+          <p class="text-xl font-bold">Inventário de Carbono Fácil</p>
+        </div>
+        <div class="kpi-card text-center bg-[#338239] text-white">
+          <p class="text-xl font-bold">Calcule sua Pegada CO2</p>
+        </div>
+        <div class="kpi-card text-center bg-[#051747] text-white">
+          <p class="text-xl font-bold">Relatórios ESG Simplificados</p>
+        </div>
+        <div class="kpi-card text-center bg-[#338239] text-white">
+          <p class="text-xl font-bold">Reduza Emissões na Sua Empresa</p>
+        </div>
+        <div class="kpi-card text-center bg-[#051747] text-white">
+          <p class="text-xl font-bold">Sua Gestão ESG Otimizada</p>
+        </div>
+        <div class="kpi-card text-center bg-[#338239] text-white">
+          <p class="text-xl font-bold">Otimize Sua Sustentabilidade</p>
+        </div>
+        <div class="kpi-card text-center bg-[#051747] text-white">
+          <p class="text-xl font-bold">Alcance Suas Metas Net Zero</p>
+        </div>
+        <div class="kpi-card text-center bg-[#338239] text-white">
+          <p class="text-xl font-bold">Do Inventário à Estratégia</p>
+        </div>
+        <div class="kpi-card text-center bg-[#051747] text-white">
+          <p class="text-xl font-bold">Sustentabilidade sem planilhas</p>
+        </div>
+        <div class="kpi-card text-center bg-[#338239] text-white">
+          <p class="text-xl font-bold">Plataforma Sustain ESG</p>
+        </div>
+        <div class="kpi-card text-center bg-[#051747] text-white">
+          <p class="text-xl font-bold">Sua Solução GHG Protocol</p>
+        </div>
+        <div class="kpi-card text-center bg-[#338239] text-white">
+          <p class="text-xl font-bold">Gestão de Carbono Completa</p>
+        </div>
+        <div class="kpi-card text-center bg-[#051747] text-white">
+          <p class="text-xl font-bold">Otimização de Emissões GEE</p>
+        </div>
+      </div>
+
+      <h3 class="text-2xl font-bold text-[#051747] mb-4">Descrições de Alta Performance</h3>
+      <div class="space-y-4">
+        <div class="copy-card border-[#338239]">
+          <p class="text-gray-700">Otimize sua gestão de carbono com a Plataforma Sustain. Software multi-metodológico para inventários de GEE, relatórios ESG (GRI, SASB) e redução de emissões. Peça uma demonstração hoje!</p>
+        </div>
+        <div class="copy-card border-[#051747]">
+          <p class="text-gray-700">Abandone as planilhas. Nossa plataforma automatiza o inventário de carbono e GEE, oferecendo dashboards e relatórios para uma gestão estratégica e inteligente. Saiba mais!</p>
+        </div>
+        <div class="copy-card border-[#338239]">
+          <p class="text-gray-700">Tecnologia premiada para sustentabilidade empresarial. Monitore, avalie e gerencie o desempenho ESG da sua empresa e cadeia de fornecedores de forma integrada e completa. Baixe o guia!</p>
+        </div>
+        <div class="copy-card border-[#051747]">
+          <p class="text-gray-700">Crie relatórios GRI/SASB de forma simples e precisa. A Plataforma Sustain oferece ferramentas avançadas para cálculo de pegada de carbono, análise de riscos e planos de ação. Fale com um especialista.</p>
+        </div>
+        <div class="copy-card border-[#338239]">
+          <p class="text-gray-700">Acelere sua transição para o Net Zero. Identifique fontes de emissão, simule cenários e gerencie planos de redução de emissões com nossa plataforma. Solicite sua demonstração gratuita!</p>
+        </div>
+        <div class="copy-card border-[#051747]">
+          <p class="text-gray-700">Sua empresa precisa de um inventário de carbono? Nossa solução tecnológica segue o GHG Protocol e simplifica todo o processo, da coleta de dados à análise estratégica. Comece agora!</p>
+        </div>
+        <div class="copy-card border-[#338239]">
+          <p class="text-gray-700">Mais que um software, uma estratégia. A Plataforma Sustain te ajuda a transformar a gestão ambiental em vantagem competitiva, com ferramentas de ponta para licenciamento e conformidade. Agende uma conversa!</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="landing-page-analysis" class="mb-12 p-6 bg-white rounded-lg shadow-md">
+      <div class="text-center mb-8">
+        <h2 class="text-3xl font-bold text-[#338239]">Análise e Sugestões para a Landing Page</h2>
+        <p class="text-md text-gray-500 mt-2">Melhorias para a página de destino que podem aumentar a taxa de conversão.</p>
+      </div>
+      <div class="p-4 rounded-lg bg-gray-100 mb-6">
+        <h3 class="text-xl font-bold text-[#051747] mb-2">Problema Crítico: Baixa Taxa de Conversão</h3>
+        <p class="mb-2">A campanha tem uma Taxa de Conversão de 4,73%, bem abaixo da média de mercado para o segmento, que pode chegar a 10-20% com uma landing page otimizada. Uma landing page com alta performance é aquela que oferece uma experiência fluida e segura para o usuário, eliminando barreiras e comunicando valor de forma imediata.</p>
+      </div>
+
+      <h3 class="text-2xl font-bold text-[#051747] mb-4">Sugestões de Otimização</h3>
+      <ul class="suggestion-list text-gray-700">
+        <li class="mb-4">
+          <h4 class="font-bold text-lg text-[#051747]">Reduza a Fricção com um Botão de WhatsApp</h4>
+          <p>Remover o formulário e substituí-lo por um botão de "Fale com um Especialista no WhatsApp" pode reduzir drasticamente a barreira de entrada. O formulário exige esforço e tempo do usuário, enquanto o WhatsApp oferece uma via de comunicação direta, instantânea e com alta confiança, ideal para leads B2B que precisam de agilidade e um contato pessoal.</p>
+        </li>
+        <li class="mb-4">
+          <h4 class="font-bold text-lg text-[#051747]">Simplifique e Centralize a Chamada para Ação (CTA)</h4>
+          <p>A página possui várias CTAs em diferentes formatos (botões, links). A recomendação é ter uma única CTA principal e clara (como o botão de WhatsApp) em pontos estratégicos, como o topo da página, no meio da seção de benefícios e no final. A multiplicidade de CTAs pode confundir o usuário e diminuir a conversão.</p>
+        </li>
+        <li class="mb-4">
+          <h4 class="font-bold text-lg text-[#051747]">Destaque a Prova Social</h4>
+          <p>A página menciona prêmios como "BRDE Labs 2023" e a parceria com "Microsoft's Startup Hub". Estes elementos de prova social são extremamente valiosos para o público B2B. Eles devem ser destacados visualmente e próximos da CTA principal para construir autoridade e confiança de forma rápida. O depoimento de clientes também é uma excelente adição.</p>
+        </li>
+        <li class="mb-4">
+          <h4 class="font-bold text-lg text-[#051747]">Clareza no Primeiro Scroll (Above the Fold)</h4>
+          <p>O cabeçalho da página deve comunicar o principal benefício e a proposta de valor em segundos. Certifique-se de que o usuário entenda imediatamente que a Plataforma Sustain é a solução para a gestão de carbono. A CTA principal deve estar visível e em destaque, sem a necessidade de o usuário rolar a página.</p>
+        </li>
+        <li class="mb-4">
+          <h4 class="font-bold text-lg text-[#051747]">Use Tópicos e Ícones para a Comunicação de Benefícios</h4>
+          <p>A página detalha serviços como "Mapeamento das Fontes de Emissão", "Inventário de Carbono", etc. Para uma leitura mais rápida e escaneável, a recomendação é apresentar esses pontos em tópicos curtos, com ícones visuais e títulos em negrito. Isso torna a informação mais digerível e impactante.</p>
+        </li>
+      </ul>
+    </section>
+
+  </div>
+
+  <script>
+    function wrapLabel(str, max_width) {
+      if (str.length <= max_width) {
+        return str;
+      }
+      const words = str.split(' ');
+      let lines = [];
+      let current_line = '';
+      for (const word of words) {
+        if ((current_line + ' ' + word).trim().length > max_width && current_line.length > 0) {
+          lines.push(current_line);
+          current_line = word;
+        } else {
+          current_line = (current_line + ' ' + word).trim();
+        }
+      }
+      if (current_line.length > 0) {
+        lines.push(current_line);
+      }
+      return lines;
+    }
+
+    const tooltipTitleCallback = (tooltipItems) => {
+      const item = tooltipItems[0];
+      let label = item.chart.data.labels[item.dataIndex];
+      if (Array.isArray(label)) {
+        return label.join(' ');
+      }
+      return label;
+    };
+
+    const sharedChartOptions = {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          display: false
+        },
+        tooltip: {
+          callbacks: {
+            title: tooltipTitleCallback
+          },
+          backgroundColor: '#051747',
+          titleFont: { size: 14, weight: 'bold' },
+          bodyFont: { size: 12 },
+          padding: 10,
+          cornerRadius: 5
+        }
+      },
+      scales: {
+        x: {
+          beginAtZero: true,
+          grid: {
+            color: '#e0e0e0'
+          },
+          ticks: {
+            font: {
+              size: 12
+            },
+            color: '#333'
+          }
+        },
+        y: {
+          grid: {
+            display: false
+          },
+          ticks: {
+            font: {
+              size: 12
+            },
+            color: '#333'
+          }
+        }
+      }
+    };
+
+    const adGroupsCtx = document.getElementById('adGroupsChart').getContext('2d');
+    new Chart(adGroupsCtx, {
+      type: 'bar',
+      data: {
+        labels: ['BRANDING', 'GESTÃO DE CARBONO'],
+        datasets: [{
+          label: 'Custo por Conversão (BRL)',
+          data: [71.36, 150.04],
+          backgroundColor: ['#338239', '#051747'],
+          borderColor: ['#338239', '#051747'],
+          borderWidth: 1,
+          borderRadius: 5
+        }]
+      },
+      options: {
+        ...sharedChartOptions,
+        plugins: {
+          ...sharedChartOptions.plugins,
+          title: {
+            display: true,
+            text: 'Custo por Conversão (BRL) por Grupo de Anúncio',
+            font: { size: 16, weight: 'bold' },
+            color: '#333',
+            padding: {
+              bottom: 20
+            }
+          }
+        }
+      }
+    });
+
+    const topKeywordsCtx = document.getElementById('topKeywordsChart').getContext('2d');
+    new Chart(topKeywordsCtx, {
+      type: 'bar',
+      data: {
+        labels: [
+          wrapLabel('pegada de carbono', 16),
+          wrapLabel('sustentabilidade empresarial', 16),
+          wrapLabel('software licenciamento ambiental', 16)
+        ],
+        datasets: [{
+          label: 'Número de Conversões',
+          data: [4, 2, 1],
+          backgroundColor: ['#338239', '#051747', '#338239'],
+          borderColor: ['#338239', '#051747', '#338239'],
+          borderWidth: 1,
+          borderRadius: 5
+        }]
+      },
+      options: {
+        ...sharedChartOptions,
+        plugins: {
+          ...sharedChartOptions.plugins,
+          title: {
+            display: true,
+            text: 'Conversões por Palavra-Chave Principal',
+            font: { size: 16, weight: 'bold' },
+            color: '#333',
+            padding: {
+              bottom: 20
+            }
+          }
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>
